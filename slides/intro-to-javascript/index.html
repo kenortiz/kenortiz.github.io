@@ -1,0 +1,87 @@
+---
+layout: intro_js
+title: Intro to JavaScript
+description: An introduction to JavaScript.
+theme: black2
+transition: convex
+---
+
+<section data-background="white">
+  <script>
+    function rightClick(e) {
+      if (targ.className = 'dragme') {
+        el.addEventListener('contextmenu', function(ev) {
+          ev.preventDefault();
+          alert('success!');
+          return false;
+        }, false);
+      }
+    }
+    function startDrag(e) {
+  		// determine event object
+  		if (!e) {
+  			var e = window.event;
+  		}
+      if(e.preventDefault) e.preventDefault();
+
+  		// IE uses srcElement, others use target
+  		targ = e.target ? e.target : e.srcElement;
+
+  		if (targ.className != 'dragme') {return};
+  		// calculate event X, Y coordinates
+  			offsetX = e.clientX;
+  			offsetY = e.clientY;
+
+  		// assign default values for top and left properties
+  		if(!targ.style.left) { targ.style.left='0px'};
+  		if (!targ.style.top) { targ.style.top='0px'};
+
+  		// calculate integer values for top and left
+  		// properties
+  		coordX = parseInt(targ.style.left);
+  		coordY = parseInt(targ.style.top);
+  		drag = true;
+
+  		// move div element
+  		document.onmousemove=dragDiv;
+      return false;
+
+  	}
+		function dragDiv(e) {
+			if (!drag) {return};
+			if (!e) { var e= window.event};
+			// var targ=e.target?e.target:e.srcElement;
+			// move div element
+			targ.style.left=coordX+e.clientX-offsetX+'px';
+			targ.style.top=coordY+e.clientY-offsetY+'px';
+			return false;
+		}
+		function stopDrag() {
+			drag=false;
+		}
+		window.onload = function() {
+			document.onmousedown = startDrag;
+			document.onmouseup = stopDrag;
+		}
+  </script>
+
+  <style type="text/css">
+    .dragme {
+      position:relative;
+      /*width: 270px;
+      height: 203px;*/
+      cursor: move;
+      border: none;
+      box-shadow: none;
+      background: none;
+    }
+    #draggable {
+      background-color: #ccc;
+      border: 1px solid #000;
+    }
+  </style>
+  <div oncontextmenu="javascript:alert('success!');return false;">
+    <img src="images/css_robot.png" alt="drag-and-drop image script"
+   title="drag-and-drop image script" class="dragme">
+  </div>
+</section>
